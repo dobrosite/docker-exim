@@ -2,4 +2,8 @@
 
 set -e
 
+if [ "$1" = "supervisord" ]; then
+    /etc/init.d/courier-authdaemon start
+fi
+
 exec "$@"
