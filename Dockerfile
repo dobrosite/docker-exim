@@ -13,10 +13,10 @@ RUN apt-get update && apt-get install --assume-yes --no-install-recommends \
 		supervisor \
 	&& rm -r /var/lib/apt/lists/*
 
-COPY supervisord.conf /etc/supervisord/supervisord.conf
+COPY supervisord.conf /etc/supervisor/supervisord.conf
 COPY docker-exim-entrypoint /usr/local/bin/
 
 EXPOSE 25 2525 587 143 110
 
 ENTRYPOINT ["docker-exim-entrypoint"]
-CMD ["supervisord","-n","-c","/etc/supervisord/supervisord.conf"]
+CMD ["supervisord","-c","/etc/supervisor/supervisord.conf"]

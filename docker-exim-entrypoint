@@ -2,6 +2,20 @@
 
 set -e
 
+CONFIG_OVERLAY_DIR='/usr/local/docker/etc'
+
+# Переписываем настройки файлами пользователя.
+if [ -d "${CONFIG_OVERLAY_DIR}" ]; then
+    for srcFile in `find "${CONFIG_OVERLAY_DIR}" -type f`; do
+        dstFile=/etc/${srcFile#"${CONFIG_OVERLAY_DIR}/"}
+        dstDir=`dirname "${dstFile}"`
+        if [ ! -d "${dstDir}" ]; then
+            mkdir -p "${dstDir}"
+        fi
+        cp -f "${srcFile}" "${dstFile}"
+    done
+fi
+
 if [ "$1" = "supervisord" ]; then
     # TODO: Переделать через supervisord?
     /etc/init.d/courier-authdaemon start
